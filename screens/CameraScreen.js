@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Camera, Permissions, ImageManipulator } from "expo";
+import { Camera, Permissions } from "expo";
 import axios from "axios";
 import { Button } from "react-native-elements";
 
