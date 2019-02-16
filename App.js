@@ -1,12 +1,38 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, AsyncStorage } from "react-native";
 import { AppLoading, Font, Icon } from "expo";
-import AppContainer from "./navigation/AppNavigator"
+import AppContainer from "./navigation/AppNavigator";
+import uuidv4 from "uuid/v4";
 
 export default class App extends React.Component {
   state = {
-    isLoadingComplete: false
+    isLoadingComplete: false,
+    userID : ""
   };
+
+  componentDidMount = () => {
+    this._retrieveID();
+  }
+
+  _retrieveID = async () => {
+    try {
+      const value = await AsyncStorage.getItem("ID");
+      if (value !== null) {
+          this.setState({ userID: "ID" });
+          console.log(userID)
+      } else {
+        const newID = uuidv4();
+        AsyncStorage.setItem("ID", newID);
+        this.setState({
+          userID : newID
+        });
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
