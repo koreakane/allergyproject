@@ -1,18 +1,10 @@
 import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
-import { createAppContainer, createStackNavigator } from "react-navigation"; // Version can be specified in package.json
+import MainTabNavigator from "./MainTabNavigator";
 
-import HomeScreen from "../screens/HomeScreen";
-import CameraScreen from "../screens/CameraScreen";
-
-const AppContainer = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Cameras: CameraScreen
-  },
-  {
-    initialRouteName: "Home"
-  }
+export default createAppContainer(
+  createSwitchNavigator({
+    Main: MainTabNavigator
+  })
 );
-
-export default createAppContainer(AppContainer);

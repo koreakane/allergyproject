@@ -5,15 +5,13 @@ import {
   Text,
   View,
   ScrollView,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
-
 import { Header, CheckBox, Button } from "react-native-elements";
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from "react-navigation";
 
-allergies = [ 
+allergies = [
   {
     id: "1",
     name: "Nut",
@@ -63,7 +61,6 @@ allergies = [
 // I want to make this allergy array to other file
 
 export default class HomeScreen extends React.Component {
-
   render() {
     return (
       <View styles={styles.container}>
