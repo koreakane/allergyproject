@@ -11,7 +11,7 @@ import {
 import { Header, CheckBox, Button } from "react-native-elements";
 import { StackActions, NavigationActions } from "react-navigation";
 
-allergies = [
+sampleallergies = [
   {
     id: "1",
     name: "Nut",
@@ -61,6 +61,15 @@ allergies = [
 // I want to make this allergy array to other file
 
 export default class HomeScreen extends React.Component {
+  state = {
+    allergies: []
+  };
+
+  componentDidMount = () => {
+    // this._makeAllergylist();
+    this._retrieveData();
+  };
+
   render() {
     return (
       <View styles={styles.container}>
@@ -71,19 +80,17 @@ export default class HomeScreen extends React.Component {
         /> */}
 
         <ScrollView styles={styles.container2}>
-          <FlatList
-            data={allergies}
-            renderItem={({ item }) => (
-              <View styles={styles.container3}>
+          {this.state.allergies.map(item => {
+            return (
+              <View styles={styles.container3} key={item.id}>
                 <CheckBox
-                  checked={item.IsChecked ? true : false}
-                  // onPress={_allergyCheck()}
+                  checked={item.IsChecked}
+                  onPress={() => this._checkForAllergies(item)}
                 />
                 <Text styles={styles.CheckText}>{item.name}</Text>
               </View>
-            )}
-            keyExtractor={({ id }, index) => id}
-          />
+            );
+          })}
         </ScrollView>
         <Button
           title="Go to Cameras"
@@ -102,28 +109,61 @@ export default class HomeScreen extends React.Component {
 
   //function start-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-  _allergyCheck = () => {
-    checked ? (checked = false) : (checked = true);
-  };
+  _checkForAllergies(item) {
+    const newState = this.state.allergies.map(allergy => {
+      if (allergy.id === item.id) {
+        return {
+          ...allergy,
+          IsChecked: !allergy.IsChecked
+        };
+      }
+      return allergy;
+    });
 
-  _makeAllergylist = () => {
-    if ((AllergyList = {})) {
-      const AllergyList = {
-        ...allergies
-      };
-    }
-  };
+    this.setState({
+      allergies: newState
+    });
+    this._saveAllergies(this.state.allergies);
+    console.log(this.state.allergies);
+  }
+
+  // _makeAllergylist = () => {
+  //   console.log(this.state)
+  //   const allergies = this.state;
+  //   console.log(sampleallergies)
+  //   if (allergies == []) {
+  //     const newState = sampleallergies.map(allergy => {
+  //       return allergy
+  //     });
+
+  //     this.setState({
+  //       allergies: newState
+  //     });
+  //   }
+  // };
 
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem("allergies");
       if (value !== null) {
-        const parsedAllergies = JSON.parse(allergies);
+        const parsedAllergies = JSON.parse(value);
         this.setState({ allergies: parsedAllergies });
+        console.log(parsedAllergies);
+      } else {
+        this.setState({
+          allergies: sampleallergies
+        });
       }
-    } catch (error) {
-      // Error retrieving data
+    } catch (err) {
+      console.log(err);
     }
+  };
+
+  _saveAllergies = allergies => {
+    const saveAllergies = AsyncStorage.setItem(
+      "allergies",
+      JSON.stringify(allergies)
+    );
   };
 }
 
