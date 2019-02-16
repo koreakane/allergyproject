@@ -4,23 +4,20 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
-  Dimensions,
-  Platform,
   ScrollView,
   AsyncStorage,
-  ActivityIndicator
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import { Header, CheckBox, Button } from "react-native-elements";
+import { StackActions, NavigationActions } from 'react-navigation';
 
-allergies = [
+allergies = [ 
   {
     id: "1",
     name: "Nut",
-    IsChecked: false
+    IsChecked: true
   },
   {
     id: "2",
@@ -61,58 +58,47 @@ allergies = [
     id: "9",
     name: "Lemon",
     IsChecked: false
-  },
-
+  }
 ];
+// I want to make this allergy array to other file
 
 export default class HomeScreen extends React.Component {
-
-  // componentDidMount = async () => {
-  //   return fetch(
-  //     "http://www.json-generator.com/api/json/get/bUDnpbvyJK?indent=2"
-  //   )
-  //     .then(response => response.json())
-  //     .then(responseJson => {3
-  //       this.setState({
-  //         dataSource: responseJson.allergies,
-  //         isLoading: false
-  //       });
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
-
-  // componentDidMount = () => {
-  //   this._retrieveData();
-  // };
 
   render() {
     return (
       <View styles={styles.container}>
-        <Header
+        {/* <Header
           leftComponent={{ icon: "menu", color: "#fff" }}
           centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
           rightComponent={{ icon: "home", color: "#fff" }}
-        />
+        /> */}
+
         <ScrollView styles={styles.container2}>
-        <FlatList
-          data={allergies}
-          renderItem={({ item }) => (
-            <View styles={styles.container3}>
-              <CheckBox
-                value={item.IsChecked ? true : false}
-                onValueChange={() =>
-                  this.setState({ checked: !this.state.checked })
-                }
-                // onChange={this._allergyCheck()}
-              />
-              <Text styles={styles.CheckText}>{item.name}</Text>
-            </View>
-          )}
-          keyExtractor={({ id }, index) => id}
-        />
+          <FlatList
+            data={allergies}
+            renderItem={({ item }) => (
+              <View styles={styles.container3}>
+                <CheckBox
+                  checked={item.IsChecked ? true : false}
+                  // onPress={_allergyCheck()}
+                />
+                <Text styles={styles.CheckText}>{item.name}</Text>
+              </View>
+            )}
+            keyExtractor={({ id }, index) => id}
+          />
         </ScrollView>
+        <Button
+          title="Go to Cameras"
+          onPress={() => {
+            this.props.navigation.dispatch(
+              StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: "Camera" })]
+              })
+            );
+          }}
+        />
       </View>
     );
   }
@@ -120,12 +106,7 @@ export default class HomeScreen extends React.Component {
   //function start-----------------------------------------------------------------------------------------------------------------------------------------------------
 
   _allergyCheck = () => {
-    this.setState({ checked: !this.state.checked });
-    // try {
-    //   await AsyncStorage.setItem("allergies", JSON.stringify(allergies));
-    // } catch (error) {
-    //   // Error saving data
-    // }
+    checked ? (checked = false) : (checked = true);
   };
 
   _makeAllergylist = () => {
@@ -153,19 +134,21 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   },
   container2: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   container3: {
     flexDirection: "row",
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 30,
+    paddingTop: 30
   },
   checkTextContainer: {},
   CheckText: { marginTop: 5 },
