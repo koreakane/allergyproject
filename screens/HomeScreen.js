@@ -29,7 +29,7 @@ const { height, width } = Dimensions.get("window");
 sampleallergies = [
   {
     id: "1",
-    name: "Shrimp/prawn",
+    name: "shrimp/prawn",
     IsChecked: true
   },
   {
@@ -195,7 +195,7 @@ export default class HomeScreen extends React.Component {
                       />
                     </Left>
                     <Body>
-                      <Text styles={styles.CheckText}>{item.name}</Text>
+                      <Text styles={styles.CheckText}>{this._Capitalize(item.name)}</Text>
                     </Body>
                   </ListItem>
                 );
@@ -226,6 +226,10 @@ export default class HomeScreen extends React.Component {
     this._saveAllergies(this.state.allergies);
     console.log(this.state.allergies);
   }
+
+  _Capitalize(str){
+    return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
   // _makeAllergylist = () => {
   //   console.log(this.state)

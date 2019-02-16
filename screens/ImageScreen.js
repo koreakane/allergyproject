@@ -65,38 +65,13 @@ export default class ImageScreen extends React.Component {
                       >
                         <Thumbnail square large source={{ uri: item.image }} />
                       </TouchableOpacity>
+                      <View style={styles.CheckTextBox}>
+                        <Text style={styles.CheckTextName}>{item.name}</Text>
+                        <Text style={styles.CheckTextComment}>
+                          {item.comment}
+                        </Text>
+                      </View>
                     </Left>
-                    <Text styles={styles.CheckText}>{item.name}</Text>
-                    <Text>{item.comment}</Text>
-                    {/* <Dialog
-                        visible={this.state.visible}
-                        onTouchOutside={() => {
-                          this.setState({ visible: false });
-                        }}
-                        style={{
-                          height: 300,
-                          width: 400,
-                          flex: 1
-                        }}
-                      >
-                        <DialogContent
-                          style={{
-                            height: 300,
-                            width: 400,
-                            flex: 1
-                          }}
-                        >
-                          <Image
-                            key={item._id}
-                            source={{ uri: item.image }}
-                            style={{
-                              height: 300,
-                              width: width,
-                              flex: 1
-                            }}
-                          />
-                        </DialogContent>
-                          </Dialog> */}
                   </ListItem>
                 );
               })}
@@ -185,7 +160,16 @@ const styles = StyleSheet.create({
   checkboxcontainer: {
     width: width / 5
   },
-  CheckText: {
-    paddingLeft: 30
+  CheckTextBox: {
+    flexDirection: "column",
+    paddingLeft: 5
+  },
+  CheckTextName: {
+    fontSize: 22,
+    fontWeight: "bold"
+  },
+  CheckTextComment: {
+    fontSize: 15,
+    fontWeight: "300"
   }
 });
