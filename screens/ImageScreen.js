@@ -68,14 +68,16 @@ export default class ImageScreen extends React.Component {
                         <Thumbnail square large source={{ uri: item.image }} />
                       </TouchableOpacity>
                       <View style={styles.CheckTextBox}>
-                        <Text style={styles.CheckTextName}>{item.productName}</Text>
+                        <Text style={styles.CheckTextName}>
+                          {item.productName}
+                        </Text>
                         <Text style={styles.CheckTextComment}>
                           {item.comment}
                         </Text>
-                      <Button
-                      title="Delete"
-                      onPress={() => this._deleteProduct(item)}
-                    />
+                        <Button
+                          title="Delete"
+                          onPress={() => this._deleteProduct(item)}
+                        />
                       </View>
                     </Left>
                   </ListItem>
