@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Camera, Permissions, ImageManipulator } from "expo";
+import { Camera, Permissions } from "expo";
 import axios from "axios";
 import { Button } from "react-native-elements";
 
@@ -62,7 +62,7 @@ export default class CameraScreen extends React.Component {
           <Camera
             style={{ flex: 1 }}
             type={this.state.type}
-            pictureSize="1600x1200"
+            pictureSize="800x600"
             ref={ref => {
               this.camera = ref;
             }}

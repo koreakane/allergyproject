@@ -67,8 +67,6 @@ export default class ImageScreen extends React.Component {
                       </TouchableOpacity>
                     </Left>
                     <Text styles={styles.CheckText}>{item.name}</Text>
-
-                    
                     <Text>{item.comment}</Text>
                     {/* <Dialog
                         visible={this.state.visible}
@@ -98,7 +96,7 @@ export default class ImageScreen extends React.Component {
                             }}
                           />
                         </DialogContent>
-                      </Dialog> */}
+                          </Dialog> */}
                   </ListItem>
                 );
               })}

@@ -1,60 +1,165 @@
 import React from "react";
 import {
-  FlatList,
   StyleSheet,
   Text,
   View,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions,
+  Platform,
+  StatusBar,
 } from "react-native";
 
-import { Header, CheckBox, Button } from "react-native-elements";
+import {
+  Container,
+  Title,
+  Header,
+  Content,
+  List,
+  ListItem,
+  CheckBox,
+  Body,
+  Left,
+  Right
+} from "native-base";
 import { StackActions, NavigationActions } from "react-navigation";
+
+const { height, width } = Dimensions.get("window");
 
 sampleallergies = [
   {
     id: "1",
-    name: "Nut",
+    name: "Shrimp/prawn",
     IsChecked: true
   },
   {
     id: "2",
-    name: "Cola",
+    name: "crab",
     IsChecked: false
   },
   {
     id: "3",
-    name: "NukaCola",
+    name: "wheat",
     IsChecked: false
   },
   {
     id: "4",
-    name: "lol",
+    name: "buckwheat",
     IsChecked: false
   },
   {
     id: "5",
-    name: "Sushi",
+    name: "egg",
     IsChecked: false
   },
   {
     id: "6",
-    name: "Water",
+    name: "milk",
     IsChecked: false
   },
   {
     id: "7",
-    name: "Rice",
+    name: "peanuts",
     IsChecked: false
   },
   {
     id: "8",
-    name: "Grenade",
+    name: "abalone",
     IsChecked: false
   },
   {
     id: "9",
-    name: "Lemon",
+    name: "squid",
+    IsChecked: false
+  },
+  {
+    id: "10",
+    name: "salmon roe",
+    IsChecked: false
+  },
+  {
+    id: "11",
+    name: "oranges",
+    IsChecked: false
+  },
+  {
+    id: "12",
+    name: "cashew nut",
+    IsChecked: false
+  },
+  {
+    id: "13",
+    name: "kiwifruit",
+    IsChecked: false
+  },
+  {
+    id: "14",
+    name: "beef",
+    IsChecked: false
+  },
+  {
+    id: "15",
+    name: "walnuts",
+    IsChecked: false
+  },
+  {
+    id: "16",
+    name: "sesame",
+    IsChecked: false
+  },
+  {
+    id: "17",
+    name: "salmon",
+    IsChecked: false
+  },
+  {
+    id: "18",
+    name: "mackerel",
+    IsChecked: false
+  },
+  {
+    id: "19",
+    name: "soybeans",
+    IsChecked: false
+  },
+  {
+    id: "20",
+    name: "chicken",
+    IsChecked: false
+  },
+  {
+    id: "21",
+    name: "bananas",
+    IsChecked: false
+  },
+  {
+    id: "22",
+    name: "pork",
+    IsChecked: false
+  },
+  {
+    id: "23",
+    name: "matsutake mushrooms",
+    IsChecked: false
+  },
+  {
+    id: "24",
+    name: "peaches",
+    IsChecked: false
+  },
+  {
+    id: "25",
+    name: "yams",
+    IsChecked: false
+  },
+  {
+    id: "26",
+    name: "apples",
+    IsChecked: false
+  },
+  {
+    id: "27",
+    name: "gelatin",
     IsChecked: false
   }
 ];
@@ -72,38 +177,33 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View styles={styles.container}>
-        {/* <Header
-          leftComponent={{ icon: "menu", color: "#fff" }}
-          centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-          rightComponent={{ icon: "home", color: "#fff" }}
-        /> */}
-
-        <ScrollView styles={styles.container2}>
-          {this.state.allergies.map(item => {
-            return (
-              <View styles={styles.container3} key={item.id}>
-                <CheckBox
-                  checked={item.IsChecked}
-                  onPress={() => this._checkForAllergies(item)}
-                />
-                <Text styles={styles.CheckText}>{item.name}</Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-        <Button
-          title="Go to Cameras"
-          onPress={() => {
-            this.props.navigation.dispatch(
-              StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: "Camera" })]
-              })
-            );
-          }}
-        />
-      </View>
+      <Container>
+        <Content>
+          <StatusBar barStyle="light-content" />
+          <ScrollView
+            styles={styles.container}
+            contentContainerStyle={styles.contentContainer}
+          >
+            <List>
+              {this.state.allergies.map(item => {
+                return (
+                  <ListItem key={item.id}>
+                    <Left>
+                      <CheckBox
+                        checked={item.IsChecked}
+                        onPress={() => this._checkForAllergies(item)}
+                      />
+                    </Left>
+                    <Body>
+                      <Text styles={styles.CheckText}>{item.name}</Text>
+                    </Body>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </ScrollView>
+        </Content>
+      </Container>
     );
   }
 
@@ -147,8 +247,14 @@ export default class HomeScreen extends React.Component {
       const value = await AsyncStorage.getItem("allergies");
       if (value !== null) {
         const parsedAllergies = JSON.parse(value);
-        this.setState({ allergies: parsedAllergies });
-        console.log(parsedAllergies);
+        if (parsedAllergies.length <= sampleallergies.length) {
+          this.setState({ allergies: parsedAllergies });
+          console.log(parsedAllergies);
+        } else {
+          this.setState({
+            allergies: sampleallergies
+          });
+        }
       } else {
         this.setState({
           allergies: sampleallergies
@@ -172,25 +278,19 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#fff"
   },
-  container2: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  container3: {
-    flexDirection: "row",
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
+  contentContainer: {
     paddingTop: 30
   },
-  checkTextContainer: {},
-  CheckText: { marginTop: 5 },
-  camerabutton: {
-    width: 100,
-    borderRadius: 50
+  BigContainer: {
+    alignItems: "center",
+    flexDirection: "row"
+  },
+  checkboxcontainer: {
+    width: width / 5
+  },
+  CheckText: {
+    paddingLeft: 30
   }
 });
