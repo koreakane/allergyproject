@@ -20,8 +20,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? `ios-card${focused ? "" : "-outline"}`
-          : "md-card"
+          ? `ios-home${focused ? "" : "-outline"}`
+          : "md-home"
       }
     />
   )
@@ -32,11 +32,11 @@ const CameraStack = createStackNavigator({
 });
 
 CameraStack.navigationOptions = {
-  tabBarLabel: "Q&A",
+  tabBarLabel: "Camera",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-chatbubbles" : "md-chatbubbles"}
+      name={Platform.OS === "ios" ? "ios-camera" : "md-camera"}
     />
   )
 };
