@@ -68,7 +68,7 @@ export default class ImageScreen extends React.Component {
                     </Left>
                     <Text styles={styles.CheckText}>{item.name}</Text>
                     <Text>{item.comment}</Text>
-                    <Dialog
+                    {/* <Dialog
                         visible={this.state.visible}
                         onTouchOutside={() => {
                           this.setState({ visible: false });
@@ -96,7 +96,7 @@ export default class ImageScreen extends React.Component {
                             }}
                           />
                         </DialogContent>
-                      </Dialog>
+                      </Dialog> *}
                   </ListItem>
                 );
               })}
