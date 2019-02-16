@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Camera, Permissions, MediaLibrary } from "expo";
+import { Camera, Permissions, ImageManipulator } from "expo";
 import axios from "axios";
 import { Button } from "react-native-elements";
 
@@ -16,45 +16,34 @@ export default class CameraScreen extends React.Component {
   }
 
   async takePhoto() {
-    console.log("entered take photo");
+    console.log("taking photo...");
     if (this.camera) {
       try {
         const photo = await this.camera.takePictureAsync();
-        const URL = "https://allergynode.herokuapp.com/uploadPhoto";
-        // console.log({ photo });
-        // formData.append("test-photo.jpg", formData, "test-photo");
-        // formData.append("test-photo", {
-        //   uri: photo.uri,
-        //   name: `test-photo.jpg`,
-        //   type: `image/jpg`
-        // });
-        console.log("before fetch...");
 
-        // const formData = new FormData();
-        // formData.append("name", "avatar");
-        // formData.append("fileData", {
-        //   uri: photo.uri,
-        //   type: "image/jpg",
-        //   name: "test-photo.jpg"
-        // });
+        const URL = "https://allergynode.herokuapp.com/image/upload";
 
-        var data = new FormData();
-        data.append("my_photo", {
+        const data = new FormData();
+        data.append("test-photo.jpg", {
           uri: photo.uri,
-          name: "my_photo.jpg",
+          name: "test-photo.jpg",
           type: "image/jpg"
         });
-
-        fetch(URL, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data"
-          },
-          method: "POST",
-          body: data
+        console.log("awaiting response...");
+        axios.post(URL, data).then(data => {
+          axios
+            .post("https://allergypy.herokuapp.com/translate", {
+              url_link:
+                "https://allergynode.herokuapp.com/photos/test-photo.jpg"
+            })
+            .then(data2 => {
+              console.log("received response...");
+              this.setState({
+                data2: data2
+              });
+            })
+            .catch(err => console.log(err));
         });
-
-        console.log("after fetch...");
       } catch (err) {
         console.error(err);
       }
@@ -73,6 +62,7 @@ export default class CameraScreen extends React.Component {
           <Camera
             style={{ flex: 1 }}
             type={this.state.type}
+            pictureSize="1600x1200"
             ref={ref => {
               this.camera = ref;
             }}
@@ -107,6 +97,9 @@ export default class CameraScreen extends React.Component {
                 </Text>
               </TouchableOpacity>
               <Button title="Snap" onPress={this.takePhoto.bind(this)} />
+              <Text>
+                {this.state.data2 ? JSON.stringify(this.state.data2.data) : "0"}
+              </Text>
               {/* <Button
                 title="Back"
                 onPress={() => {
