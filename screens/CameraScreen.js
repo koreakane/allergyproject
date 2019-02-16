@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Camera, Permissions, MediaLibrary } from "expo";
-import axios from "axios";
 import { Button } from "react-native-elements";
 
 export default class CameraScreen extends React.Component {
@@ -25,7 +24,7 @@ export default class CameraScreen extends React.Component {
         // formData.append("test-photo.jpg", formData, "test-photo");
         // formData.append("test-photo", {
         //   uri: photo.uri,
-        //   name: `test-photo.jpg`,
+        //   name: `test-photo.jpg`,  
         //   type: `image/jpg`
         // });
         console.log("before fetch...");
