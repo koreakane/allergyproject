@@ -66,7 +66,7 @@ export default class ImageScreen extends React.Component {
                         <Thumbnail square large source={{ uri: item.image }} />
                       </TouchableOpacity>
                     </Left>
-                    <Text styles={styles.CheckText}>{item.name}</Text>
+                    <Text styles={styles.CheckText}>{item.productName}</Text>
                     <Text>{item.comment}</Text>
                     {/* <Dialog
                         visible={this.state.visible}
@@ -112,12 +112,21 @@ export default class ImageScreen extends React.Component {
   _getImagesFromApi = async () => {
     try {
       let response = await fetch(
-        "http://www.json-generator.com/api/json/get/bTOVKPQwky?indent=2"
+        "https://allergynode.herokuapp.com/product/1234",
+        {
+          headers: {
+            "Content-Type": "appliction/json"
+          }
+        }
       );
+
+      console.log(222, response);
+
       let responseJson = await response.json();
+      console.log(111, responseJson);
       this.setState(
         {
-          Image: responseJson.images
+          Image: responseJson
         },
         function() {}
       );
