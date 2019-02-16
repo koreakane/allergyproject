@@ -96,7 +96,7 @@ export default class ImageScreen extends React.Component {
                             }}
                           />
                         </DialogContent>
-                      </Dialog> *}
+                          </Dialog> */}
                   </ListItem>
                 );
               })}

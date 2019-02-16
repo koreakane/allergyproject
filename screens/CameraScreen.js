@@ -62,7 +62,7 @@ export default class CameraScreen extends React.Component {
           <Camera
             style={{ flex: 1 }}
             type={this.state.type}
-            pictureSize="1600x1200"
+            pictureSize="800x600"
             ref={ref => {
               this.camera = ref;
             }}
