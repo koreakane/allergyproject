@@ -25,6 +25,8 @@ import {
   Right,
   Thumbnail
 } from "native-base";
+import axios from "axios";
+import { Button } from "react-native-elements";
 import Dialog, { DialogContent } from "react-native-popup-dialog";
 import { withTheme } from "react-native-elements";
 
@@ -66,10 +68,14 @@ export default class ImageScreen extends React.Component {
                         <Thumbnail square large source={{ uri: item.image }} />
                       </TouchableOpacity>
                       <View style={styles.CheckTextBox}>
-                        <Text style={styles.CheckTextName}>{item.name}</Text>
+                        <Text style={styles.CheckTextName}>{item.productName}</Text>
                         <Text style={styles.CheckTextComment}>
                           {item.comment}
                         </Text>
+                      <Button
+                      title="Delete"
+                      onPress={() => this._deleteProduct(item)}
+                    />
                       </View>
                     </Left>
                   </ListItem>
@@ -87,12 +93,21 @@ export default class ImageScreen extends React.Component {
   _getImagesFromApi = async () => {
     try {
       let response = await fetch(
-        "http://www.json-generator.com/api/json/get/bTOVKPQwky?indent=2"
+        "https://allergynode.herokuapp.com/product/1234",
+        {
+          headers: {
+            "Content-Type": "appliction/json"
+          }
+        }
       );
+
+      console.log(222, response);
+
       let responseJson = await response.json();
+      console.log(111, responseJson);
       this.setState(
         {
-          Image: responseJson.images
+          Image: responseJson
         },
         function() {}
       );
@@ -128,6 +143,14 @@ export default class ImageScreen extends React.Component {
     const saveAllergies = AsyncStorage.setItem(
       "allergies",
       JSON.stringify(allergies)
+    );
+  };
+
+  _deleteProduct = async item => {
+    console.log("yoo", { item });
+    const res = await axios.delete(
+      `https://allergynode.herokuapp.com/product/${item._id}`,
+      { userId: "1234" }
     );
   };
 }
