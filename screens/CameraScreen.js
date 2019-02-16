@@ -4,18 +4,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from "react-native";
 import { Camera, Permissions } from "expo";
 import axios from "axios";
-import {
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Container,
-  Content
-} from "native-base";
+import { Text, Icon, List, ListItem, Container, Content } from "native-base";
 import { Button } from "react-native-elements";
 import Dialog, {
   SlideAnimation,
@@ -31,6 +25,7 @@ export default class CameraScreen extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     loading: true,
+    visible: false,
     allergies: [],
     exist_1: [],
     exist_2: [],
@@ -163,7 +158,7 @@ export default class CameraScreen extends React.Component {
                     })
                   }
                 >
-                  <DialogContent style={{ width:200, height: 300 }}>
+                  <DialogContent style={{ width: 200, height: 300 }}>
                     {this.state.loading ? (
                       <View style={{ paddingTop: 20 }}>
                         <ActivityIndicator size="large" color="#0000ff" />
@@ -174,40 +169,67 @@ export default class CameraScreen extends React.Component {
                           {this.state.data2 ? (
                             <List style={{ height: 500 }}>
                               <ListItem itemDivider>
-                                <Text style={styles.itemDividerText}>confidece upper 50%</Text>
+                                <Text style={styles.itemDividerText}>
+                                  confidece upper 50%
+                                </Text>
                               </ListItem>
                               {this.state.exist_1 === [] ? (
                                 <ListItem />
                               ) : (
                                 <ListItem>
                                   {this.state.exist_1.map(item => {
-                                    return <Text style={styles.listitemText} key={item}>{item} </Text>;
+                                    return (
+                                      <Text
+                                        style={styles.listitemText}
+                                        key={item}
+                                      >
+                                        {item}{" "}
+                                      </Text>
+                                    );
                                   })}
                                   <Text>detected.</Text>
                                 </ListItem>
                               )}
                               <ListItem itemDivider>
-                                <Text style={styles.itemDividerText}>confidece upper 70%</Text>
+                                <Text style={styles.itemDividerText}>
+                                  confidece upper 70%
+                                </Text>
                               </ListItem>
                               {this.state.exist_2 === [] ? (
                                 <ListItem />
                               ) : (
                                 <ListItem>
                                   {this.state.exist_2.map(item => {
-                                    return <Text style={styles.listitemText} key={item}>{item} </Text>;
+                                    return (
+                                      <Text
+                                        style={styles.listitemText}
+                                        key={item}
+                                      >
+                                        {item}{" "}
+                                      </Text>
+                                    );
                                   })}
                                   <Text>detected.</Text>
                                 </ListItem>
                               )}
                               <ListItem itemDivider>
-                                <Text style={styles.itemDividerText}>confidece upper 99%!</Text>
+                                <Text style={styles.itemDividerText}>
+                                  confidece upper 99%!
+                                </Text>
                               </ListItem>
                               {this.state.exist_3 === [] ? (
                                 <ListItem />
                               ) : (
                                 <ListItem>
-                                  {this.state.exist_3.map(item=> {
-                                    return <Text style={styles.listitemText} key={item}>{item} </Text>;
+                                  {this.state.exist_3.map(item => {
+                                    return (
+                                      <Text
+                                        style={styles.listitemText}
+                                        key={item}
+                                      >
+                                        {item}{" "}
+                                      </Text>
+                                    );
                                   })}
                                   <Text>detected.</Text>
                                 </ListItem>
@@ -262,14 +284,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 8
   },
-  itemDividerText:{
-    fontSize : 12,
-    color : "black",
-    fontWeight : "400"
+  itemDividerText: {
+    fontSize: 12,
+    color: "black",
+    fontWeight: "400"
   },
-  listitemText:{
-    fontSize : 15,
+  listitemText: {
+    fontSize: 15,
     color: "red",
-    fontWeight : "bold"
+    fontWeight: "bold"
   }
 });
