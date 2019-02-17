@@ -16,14 +16,12 @@ import Dialog, {
   DialogContent
 } from "react-native-popup-dialog";
 
-import HomeScreen from "../screens/HomeScreen";
-
 const { height, width } = Dimensions.get("window");
 
 export default class CameraScreen extends React.Component {
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
+    cameratype: Camera.Constants.Type.back,
     loading: true,
     visible: false,
     allergies: [],
@@ -32,7 +30,7 @@ export default class CameraScreen extends React.Component {
     exist_3: []
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
     this._retrieveData();
@@ -58,11 +56,12 @@ export default class CameraScreen extends React.Component {
     console.log("taking photo...");
     if (this.camera) {
       try {
-        const photo = await this.camera.takePictureAsync();
-
+        const photo = await this.camera.takePictureAsync({quality : 0.5});
+        console.log(photo);
         const URL = "https://allergynode.herokuapp.com/image/upload";
-
+        console.log(URL);
         const data = new FormData();
+        console.log(data);
         data.append("test-photo.jpg", {
           uri: photo.uri,
           name: "test-photo.jpg",
@@ -79,6 +78,8 @@ export default class CameraScreen extends React.Component {
             .then(data2 => {
               console.log("received response...");
 
+              console.log(JSON.stringify(data2.data))
+
               if (data2.data.result) {
                 this.setState({
                   loading: false,
@@ -92,7 +93,7 @@ export default class CameraScreen extends React.Component {
 
               this.setState({
                 loading: false,
-                error: error
+                error: data2.data.error
               });
             })
             .catch(err => console.log(err));
@@ -114,7 +115,7 @@ export default class CameraScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <Camera
             style={{ flex: 1 }}
-            type={this.state.type}
+            type={this.state.cameratype}
             pictureSize="800x600"
             ref={ref => {
               this.camera = ref;
@@ -128,7 +129,7 @@ export default class CameraScreen extends React.Component {
                 flexDirection: "column"
               }}
             >
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   flex: 1,
                   alignSelf: "flex-start",
@@ -149,7 +150,7 @@ export default class CameraScreen extends React.Component {
                   {" "}
                   Flip{" "}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <View style={{ flex: 6 }}>
                 <Dialog
                   visible={this.state.visible}
@@ -166,9 +167,9 @@ export default class CameraScreen extends React.Component {
                     })
                   }
                 >
-                  <DialogContent style={{ width: 200, height: 300 }}>
+                  <DialogContent style={{ width: 300, height: 400 }}>
                     {this.state.loading ? (
-                      <View style={{ paddingTop: 20 }}>
+                      <View style={{ paddingTop: 120 }}>
                         <ActivityIndicator size="large" color="#0000ff" />
                       </View>
                     ) : (
