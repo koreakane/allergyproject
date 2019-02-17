@@ -79,12 +79,20 @@ export default class CameraScreen extends React.Component {
             .then(data2 => {
               console.log("received response...");
 
+              if (data2.data.result) {
+                this.setState({
+                  loading: false,
+                  data2: data2,
+                  exist_1: data2.data.result.exist_1,
+                  exist_2: data2.data.result.exist_2,
+                  exist_3: data2.data.result.exist_3
+                });
+                return;
+              }
+
               this.setState({
                 loading: false,
-                data2: data2,
-                exist_1: data2.data.result.exist_1,
-                exist_2: data2.data.result.exist_2,
-                exist_3: data2.data.result.exist_3
+                error: error
               });
             })
             .catch(err => console.log(err));
@@ -236,7 +244,10 @@ export default class CameraScreen extends React.Component {
                               )}
                             </List>
                           ) : (
-                            "0"
+                            <Text>
+                              {this.state.error ||
+                                "Could not identify text in the image"}
+                            </Text>
                           )}
                         </Content>
                       </Container>
