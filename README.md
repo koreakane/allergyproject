@@ -2,6 +2,8 @@
 
 >2019 Junction Tokyo Hackathon Team allergyproject's hybrid app.
 
+expo link : https://expo.io/@koreakane/Alergy
+
 ## Environment
 
 - Windows 10
